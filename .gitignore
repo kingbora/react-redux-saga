@@ -1,0 +1,11 @@
+/node_modules
+/www/
+.idea
+/nbproject/
+.DS_Store
+/platforms
+/npm-debug.log
+.bak
+/.cache-loader
+/dll
+/package-lock.json
