@@ -12,12 +12,7 @@ import expand from '../../images/expand.svg';
 import inexpand from '../../images/inexpand.svg';
 import SearchInput from "../searchInput";
 const CheckableTag = Tag.CheckableTag;
-
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
+import apiConfig from "../../config";
 
 export default class Editor extends Component {
     constructor(props) {
@@ -69,14 +64,10 @@ export default class Editor extends Component {
         }
 
         if (info.file.status === "done") {
-
-        }
-
-        getBase64(info.file.originFileObj, (imageUrl) => {
             this.setState({
-                imageUrl: `![图片](${imageUrl})`
+                imageUrl: `![](${apiConfig.base}/${info.file.response.path})`
             });
-        })
+        }
     }
 
     handlePopoverChange(visible) {
@@ -283,7 +274,7 @@ export default class Editor extends Component {
                                 </button>
                             </Popover>
                             <Upload
-                                action="http://localhost:8080/api/upload"
+                                action={`${apiConfig.api}/upload`}
                                 showUploadList={false}
                                 beforeUpload={this.handleBeforeUpload}
                                 onChange={this.handleUploadChange}
