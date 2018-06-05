@@ -12,6 +12,8 @@ const lib = [
     'prop-types',
     'immutable',
     'babel-polyfill',
+    'marked',
+    'codemirror',
     'antd'
 ];
 

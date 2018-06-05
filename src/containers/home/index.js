@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {changeColor} from "./actions";
+import MarkDownEditor from "../../components/markdown";
 
 class Home extends Component {
     constructor(props) {
@@ -23,6 +24,7 @@ class Home extends Component {
                 <div style={{ color: color }}>hello react!</div>
                 <input ref="input" />
                 <button onClick={this.changeColor}>改变颜色</button>
+                <MarkDownEditor/>
             </div>
         )
     }

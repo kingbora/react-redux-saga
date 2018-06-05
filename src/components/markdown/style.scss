@@ -1,0 +1,22 @@
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  .editorWrapper {
+    flex: 1;
+    overflow: auto;
+    background-color: #f8f9fa;
+    :global(.CodeMirror) {
+      height: 100%;
+      font-family: Monaco,Menlo,Ubuntu Mono,Consolas,source-code-pro,monospace;
+      font-size: 1.167rem;
+      line-height: 1.7;
+      background: transparent;
+    }
+  }
+  .previewWrapper {
+    flex: 1;
+    overflow: auto;
+    border-left: 1px solid #ddd;
+  }
+}

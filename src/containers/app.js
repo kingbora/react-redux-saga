@@ -2,28 +2,19 @@
  * Created by wenbo.kuang on 2018/5/30.
  */
 import React, { PureComponent } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import CustomRoute from '../routes';
-import PropTypes from 'prop-types';
-
-import '../styles/global.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Editor from "./editor";
+import Home from "./home";
 
 export default class App extends PureComponent {
-    componentDidMount() {
-        document.querySelector("#root").style.display = 'block';
-    }
-
     render() {
-        const { store } = this.props;
-
         return (
             <Router>
-                <CustomRoute store={store} />
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/editor" component={Editor} />
+                </Switch>
             </Router>
         );
     }
 }
-
-App.propTypes = {
-    store: PropTypes.object.isRequired
-};

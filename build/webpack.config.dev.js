@@ -12,7 +12,6 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const HappyThreadPool = HappyPack.ThreadPool({ size: 6 });
 
 module.exports = {
-    cache: true,
     devtool: '#source-map',
     entry: {
         index: [
@@ -31,7 +30,7 @@ module.exports = {
     output: {
         filename: 'js/[name].[hash:12].js',
         path: path.join(__dirname, 'www'),
-        publicPath: `http://${webpackServerConfig.host}:${webpackServerConfig.port}`,
+        publicPath: '/',
         // 对于热替换（HMR）是必须的，让webpack知道在哪里载入热更新的模块
         chunkFilename: 'js/[name].[chunkhash].js',
         //从外部拉取资源
@@ -45,12 +44,18 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.css$/,
+                test: /\.[s]?css$/,
                 use: [
                     'style-loader',
-                    'css-loader'
-                ],
-                exclude: /node_modules/
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            localIdentName: '[path][name]__[local]--[hash:base64:5]'
+                        }
+                    },
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.html$/,
@@ -108,7 +113,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.jsx', '.js']
+        extensions: ['.jsx', '.js', '.scss', '.css']
     },
     plugins: [
         //将第三方库单独打包

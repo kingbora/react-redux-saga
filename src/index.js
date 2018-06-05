@@ -8,6 +8,12 @@ import { AppContainer } from 'react-hot-loader';
 import configureStore from './store/configureStore';
 import App from './containers/app';
 
+import "!style-loader!css-loader!codemirror/lib/codemirror.css";
+import '!style-loader!css-loader!antd/dist/antd.css';
+import "!style-loader!css-loader!./styles/global.css";
+import "!style-loader!css-loader!./styles/markdown.css";
+import "!style-loader!css-loader!highlight.js/styles/qtcreator_light.css";
+
 const initialState = window.__INITIAL_STATE__;
 const store = configureStore(initialState);
 
@@ -16,7 +22,7 @@ const render = (Component) => {
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>
-                <Component store={store} />
+                <Component />
             </Provider>
         </AppContainer>,
         MOUNT_NODE

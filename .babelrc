@@ -27,7 +27,7 @@
     [
       "import",
       {
-        "style": true,
+        "style": "css", //style为true会加载less代码
         "libraryName": "antd"
       }
     ]
