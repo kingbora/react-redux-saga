@@ -5,7 +5,8 @@ const base = "http://localhost:8080";
 
 const configClient = {
     base: base,
-    api: `${base}/api`
+    api: `${base}/api`,
+    article: `${base}/api/article`
 };
 
 export default configClient;

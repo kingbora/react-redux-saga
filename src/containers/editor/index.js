@@ -2,6 +2,7 @@
  * Created by wenbo.kuang on 2018/6/1.
  */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Icon, Popover, Button, Tag, Table, Upload, message } from 'antd';
 import MarkDownEditor from "../../components/markdown";
 import style from './style.scss';
@@ -13,8 +14,11 @@ import inexpand from '../../images/inexpand.svg';
 import SearchInput from "../searchInput";
 const CheckableTag = Tag.CheckableTag;
 import apiConfig from "../../config";
+import {saveArticle} from "./actions";
+import Marked from "marked";
+import hljs from "highlight.js";
 
-export default class Editor extends Component {
+class Editor extends Component {
     constructor(props) {
         super(props);
 
@@ -23,8 +27,19 @@ export default class Editor extends Component {
             showPreview: true,
             popShow: false,
             imageUrl: '',
-            selectedTags: []
+            selectedTags: [],
+            article: ''
         };
+
+        Marked.setOptions({
+            renderer: new Marked.Renderer(),
+            gfm: true,
+            tables: true,
+            breaks: true,
+            highlight: (code) => {
+                return hljs.highlightAuto(code).value
+            }
+        });
 
         this.handleVisibleChange = this.handleVisibleChange.bind(this);
         this.handleShowPreview = this.handleShowPreview.bind(this);
@@ -34,6 +49,8 @@ export default class Editor extends Component {
         this.handlePopoverChange = this.handlePopoverChange.bind(this);
         this.handleBeforeUpload = this.handleBeforeUpload.bind(this);
         this.handleUploadChange = this.handleUploadChange.bind(this);
+        this.handlePublish = this.handlePublish.bind(this);
+        this.updateCode = this.updateCode.bind(this);
     }
 
     handleVisibleChange(visible) {
@@ -150,9 +167,16 @@ export default class Editor extends Component {
                 <div className={style.tabLib}>
                     <SearchInput className={style.searchButton} placeholder="搜索标签" />
                 </div>
-                <Button className={style.publishButton} type="primary">确定并发布</Button>
+                <Button onClick={this.handlePublish} className={style.publishButton} type="primary">确定并发布</Button>
             </div>
         )
+    }
+
+    handlePublish() {
+        const param = {
+            content: this.state.article
+        };
+        this.props.save(param);
     }
 
     renderMarkdownContent() {
@@ -237,8 +261,14 @@ export default class Editor extends Component {
         });
     }
 
+    updateCode(doc) {
+        this.setState({
+            article: Marked(doc.getValue())
+        });
+    }
+
     render() {
-        const { visible, showPreview, popShow } = this.state;
+        const { visible, showPreview, popShow, imageUrl, article } = this.state;
         return (
             <div>
                 <header className={style.headerStyle}>
@@ -257,7 +287,7 @@ export default class Editor extends Component {
                         <img className={style.portraitStyle} src={defaultPortrait} />
                     </nav>
                 </header>
-                <MarkDownEditor insertContent={this.state.imageUrl} showPreview={showPreview}/>
+                <MarkDownEditor output={article} updateCode={this.updateCode} insertContent={imageUrl} showPreview={showPreview}/>
                 <footer className={style.footerStyle}>
                     <div className={style.footerLeft}>
                         <div>
@@ -301,3 +331,24 @@ export default class Editor extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        save: param => {
+            dispatch(saveArticle(param))
+        }
+    }
+};
+
+const editorContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Editor);
+
+export default editorContainer;

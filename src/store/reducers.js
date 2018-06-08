@@ -5,6 +5,7 @@ import { fromJS } from 'immutable';
 import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import homeReducer from "../containers/home/reducer";
+import {articleReducer} from "../containers/editor/reducer";
 
 const routeInitialState = fromJS({
     locationBeforeTransitions: null
@@ -24,6 +25,7 @@ function routeReducer(state = routeInitialState, action) {
 export default function createReducer() {
     return combineReducers({
         route: routeReducer,
-        homeReducer: homeReducer
+        homeReducer: homeReducer,
+        articleReducer: articleReducer
     })
 }
