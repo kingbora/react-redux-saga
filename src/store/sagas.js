@@ -4,10 +4,12 @@
 import { fork } from 'redux-saga/effects';
 import homeSaga from "../containers/home/saga";
 import articleSagas from "../containers/editor/sagas";
+import detailSagas from "../containers/detail/sagas";
 
 export default function* root() {
     yield [
         fork(homeSaga),
-        fork(articleSagas)
+        fork(articleSagas),
+        fork(detailSagas)
     ]
 }

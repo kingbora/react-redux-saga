@@ -10,14 +10,16 @@ import {ARTICLE_SAVE} from "./constants";
 function* saveArticle(action) {
     try{
         const param = {
-            id: 1,
-            content: action.payload.content
+            title: action.payload.title,
+            content: action.payload.content,
+            label: action.payload.label,
+            author: action.payload.author
         };
-        const url = `${config.article}/save`;
+        const url = `${config.api}/articles`;
         const request = http.getRequest(url, "POST", param);
         const response = yield call(http.send, request);
-        if (response.ok) {
-            yield put(saveArticleSucceed());
+        if (response.statusText === "OK") {
+            yield put(saveArticleSucceed(response.data));
         } else {
             yield put(saveArticleFailed());
         }

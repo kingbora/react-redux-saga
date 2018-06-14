@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Editor from "./editor";
 import Home from "./home";
+import Detail from "./detail";
 
 export default class App extends PureComponent {
     render() {
@@ -13,6 +14,7 @@ export default class App extends PureComponent {
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route path="/editor" component={Editor} />
+                    <Route path="/detail/:uuid" component={Detail} />
                 </Switch>
             </Router>
         );

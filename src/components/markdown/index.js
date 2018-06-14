@@ -5,12 +5,28 @@ import React, { PureComponent } from 'react';
 import CodeMirror from 'codemirror';
 import PropTypes from 'prop-types';
 import style from './style.scss';
+import hljs from "highlight.js";
+import Marked from "marked";
 require("codemirror/mode/markdown/markdown");
 require("codemirror/mode/javascript/javascript");
 
 export default class MarkDownEditor extends PureComponent {
     constructor(props) {
         super(props);
+
+        Marked.setOptions({
+            renderer: new Marked.Renderer(),
+            gfm: true,
+            tables: true,
+            breaks: true,
+            highlight: (code) => {
+                return hljs.highlightAuto(code).value
+            }
+        });
+
+        this.state = {
+            output: ''
+        };
 
         this.handleBlur = this.handleBlur.bind(this);
     }
@@ -31,6 +47,12 @@ export default class MarkDownEditor extends PureComponent {
                 this.editor.doc.replaceRange(nextProps.insertContent, {line: this.line.line, ch: this.line.ch}, {line: this.line.line, ch: this.line.ch});
             }
         }
+
+        if (nextProps.output && nextProps.output !== this.props.output) {
+            this.setState({
+                output: Marked(nextProps.output)
+            });
+        }
     }
 
     handleBlur(instance, event) {
@@ -38,7 +60,7 @@ export default class MarkDownEditor extends PureComponent {
     }
 
     render() {
-        const { output } = this.props;
+        const { output } = this.state;
         return (
             <div className={style.contentWrapper}>
                 <div className={style.editorWrapper}>

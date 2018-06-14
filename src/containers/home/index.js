@@ -24,7 +24,6 @@ class Home extends Component {
                 <div style={{ color: color }}>hello react!</div>
                 <input ref="input" />
                 <button onClick={this.changeColor}>改变颜色</button>
-                <MarkDownEditor/>
             </div>
         )
     }

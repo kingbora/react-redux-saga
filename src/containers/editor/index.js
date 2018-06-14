@@ -15,8 +15,6 @@ import SearchInput from "../searchInput";
 const CheckableTag = Tag.CheckableTag;
 import apiConfig from "../../config";
 import {saveArticle} from "./actions";
-import Marked from "marked";
-import hljs from "highlight.js";
 
 class Editor extends Component {
     constructor(props) {
@@ -28,18 +26,9 @@ class Editor extends Component {
             popShow: false,
             imageUrl: '',
             selectedTags: [],
-            article: ''
+            article: '',
+            title: ''
         };
-
-        Marked.setOptions({
-            renderer: new Marked.Renderer(),
-            gfm: true,
-            tables: true,
-            breaks: true,
-            highlight: (code) => {
-                return hljs.highlightAuto(code).value
-            }
-        });
 
         this.handleVisibleChange = this.handleVisibleChange.bind(this);
         this.handleShowPreview = this.handleShowPreview.bind(this);
@@ -51,12 +40,38 @@ class Editor extends Component {
         this.handleUploadChange = this.handleUploadChange.bind(this);
         this.handlePublish = this.handlePublish.bind(this);
         this.updateCode = this.updateCode.bind(this);
+        this.handleTitleInput = this.handleTitleInput.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.loadingMsg !== this.props.loadingMsg) {
+            switch(nextProps.loadingMsg) {
+                case "succeed":
+                    message.success(
+                        <p>
+                            文章发表成功！<a target="_blank" href={`/detail/${nextProps.uuid}`}>预览</a>
+                        </p>,
+                        60000
+                    );
+                    break;
+                case "error":
+                case "failed":
+                    message.error("发表失败！", 2000);
+                    break;
+            }
+        }
     }
 
     handleVisibleChange(visible) {
         this.setState({
             visible: visible
         })
+    }
+
+    handleTitleInput(e) {
+        this.setState({
+            title: e.target.value
+        });
     }
 
     handleBeforeUpload(file) {
@@ -82,7 +97,7 @@ class Editor extends Component {
 
         if (info.file.status === "done") {
             this.setState({
-                imageUrl: `![](${apiConfig.base}/${info.file.response.path})`
+                imageUrl: `![](${apiConfig.base}/${info.file.response.url})`
             });
         }
     }
@@ -174,7 +189,10 @@ class Editor extends Component {
 
     handlePublish() {
         const param = {
-            content: this.state.article
+            title: this.state.title,
+            content: this.state.article,
+            label: [1,2],
+            author: 1
         };
         this.props.save(param);
     }
@@ -263,16 +281,16 @@ class Editor extends Component {
 
     updateCode(doc) {
         this.setState({
-            article: Marked(doc.getValue())
+            article: doc.getValue()
         });
     }
 
     render() {
-        const { visible, showPreview, popShow, imageUrl, article } = this.state;
+        const { visible, showPreview, popShow, imageUrl, article, title } = this.state;
         return (
             <div>
                 <header className={style.headerStyle}>
-                    <input className={style.inputStyle} placeholder="输入文章标题" />
+                    <input className={style.inputStyle} value={title} onChange={this.handleTitleInput} placeholder="输入文章标题" />
                     <Popover
                         content={this.renderContent()}
                         title="发布文章"
@@ -334,7 +352,8 @@ class Editor extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        loadingMsg: state.articleReducer.loadingMsg,
+        uuid: state.articleReducer.uuid
     }
 };
 

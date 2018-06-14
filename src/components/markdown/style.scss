@@ -6,17 +6,65 @@
     flex: 1;
     overflow: auto;
     background-color: #f8f9fa;
-    :global(.CodeMirror) {
-      height: 100%;
-      font-family: Monaco,Menlo,Ubuntu Mono,Consolas,source-code-pro,monospace;
-      font-size: 1.167rem;
-      line-height: 1.7;
-      background: transparent;
+    :global {
+      .CodeMirror{
+        height: 100%;
+        font-family: Monaco,Menlo,Ubuntu Mono,Consolas,source-code-pro,monospace;
+        font-size: 1.167rem;
+        line-height: 1.7;
+        background: transparent;
+      }
+      .CodeMirror-vscrollbar {
+        &::-webkit-scrollbar {
+          display:block;
+          width: .5rem;
+          height: .5rem;
+          background-color:#eee;
+          border:none;
+          border-radius:.25rem;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color:#ccc;
+          border:1px solid #ccc;
+          border-radius:.25rem;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+          background-color:#999
+        }
+        &::-webkit-scrollbar-thumb:active {
+          background-color:#999
+        }
+        &::-webkit-scrollbar-thumb:disabled {
+          background-color:#f9f9f9
+        }
+      }
     }
   }
   .previewWrapper {
     flex: 1;
     overflow: auto;
     border-left: 1px solid #ddd;
+    &::-webkit-scrollbar {
+      display:block;
+      width: .5rem;
+      height: .5rem;
+      background-color:#eee;
+      border:none;
+      border-radius:.25rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color:#ccc;
+      border:1px solid #ccc;
+      border-radius:.25rem;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color:#999
+    }
+    &::-webkit-scrollbar-thumb:active {
+      background-color:#999
+    }
+    &::-webkit-scrollbar-thumb:disabled {
+      background-color:#f9f9f9
+    }
   }
 }

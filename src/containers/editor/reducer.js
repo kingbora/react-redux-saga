@@ -6,14 +6,21 @@ import {ARTICLE_SAVE_ERROR, ARTICLE_SAVE_FAILED, ARTICLE_SAVE_SUCCEED} from "./c
 
 export const articleReducer = handleActions({
     [ARTICLE_SAVE_SUCCEED]: (state, action) => {
-        return Object.assign({}, state, {});
+        return Object.assign({}, state, {
+            loadingMsg: "succeed",
+            uuid: action.payload
+        });
     },
     [ARTICLE_SAVE_ERROR]: (state, action) => {
-        return Object.assign({}, state, {});
+        return Object.assign({}, state, {
+            loadingMsg: "error"
+        });
     },
     [ARTICLE_SAVE_FAILED]: (state, action) => {
-        return Object.assign({}, state, {});
+        return Object.assign({}, state, {
+            loadingMsg: "failed"
+        });
     }
 }, {
-
+    loadingMsg: "wait"
 });

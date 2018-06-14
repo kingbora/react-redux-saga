@@ -34,7 +34,6 @@
     padding: .8em 2em 12em;
     font-size: 1.334rem;
     line-height: 1.7;
-    word-break: keep-all;
     overflow-x: hidden
 }
 
@@ -233,8 +232,8 @@
 }
 
 .markdown img[src^="http:"i] {
-    -webkit-animation: http-image 1.5s ease-in-out alternate infinite;
-    animation: http-image 1.5s ease-in-out alternate infinite
+    -webkit-animation: http-image 1.5s ease-in-out;
+    animation: http-image 1.5s ease-in-out;
 }
 
 .markdown img.equation {
