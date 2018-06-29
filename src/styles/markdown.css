@@ -34,7 +34,8 @@
     padding: .8em 2em 12em;
     font-size: 1.334rem;
     line-height: 1.7;
-    overflow-x: hidden
+    overflow-x: hidden;
+    min-height: 100%;
 }
 
 .markdown::-webkit-scrollbar {
@@ -133,13 +134,17 @@
 
 .markdown blockquote {
     margin: 1em 0;
-    border-left: 4px solid #ddd;
-    padding: 0 1em;
+    border-left: 0.4em solid #ddd;
+    background: none repeat scroll 0 0 rgba(102,128,153,.05);
+    padding: 0.8em 1em;
     color: #666
 }
 
 .markdown blockquote > p {
     margin: .5em 0
+}
+.markdown blockquote > ul {
+    margin: 0;
 }
 
 .markdown ol, .markdown ul {

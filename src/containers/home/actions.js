@@ -8,5 +8,3 @@ export const getMessage = createAction(GET_MESSAGE);
 export const getMessageSucceed = createAction(GET_MESSAGE_SUCCEED);
 export const getMessageFailed = createAction(GET_MESSAGE_FAILED);
 export const getMessageError = createAction(GET_MESSAGE_ERROR);
-
-export const changeColor = createAction(CHANGE_COLOR);

@@ -9,7 +9,7 @@ const webpackServerConfig = require("../config/server.config");
 const lib = require("../config/lib.dependencies");
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
-const HappyThreadPool = HappyPack.ThreadPool({ size: 6 });
+const HappyThreadPool = HappyPack.ThreadPool({ size: 4 });
 
 module.exports = {
     devtool: '#source-map',
@@ -38,6 +38,15 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.js[x]?$/,
+                loader: 'eslint-loader',
+                enforce: "pre",
+                include: [path.join(__dirname, "src")],
+                options: {
+                    fix: true
+                }
+            },
             {
                 test: /\.js[x]?$/,
                 use: 'happypack/loader?id=jsx',

@@ -41,6 +41,10 @@ export default class MarkDownEditor extends PureComponent {
         this.editor.on("blur", this.handleBlur);
     }
 
+    componentWillUnmount() {
+        this.editor = null;
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.insertContent && nextProps.insertContent !== this.props.insertContent) {
             if (this.editor && this.line) {
@@ -55,7 +59,7 @@ export default class MarkDownEditor extends PureComponent {
         }
     }
 
-    handleBlur(instance, event) {
+    handleBlur(instance) {
         this.line = instance.doc.getCursor();
     }
 
@@ -68,7 +72,7 @@ export default class MarkDownEditor extends PureComponent {
                 </div>
                 {
                     this.props.showPreview &&
-                    <div className={style.previewWrapper}>
+                    <div className={style.previewWrapper} ref="preview">
                         <div className="markdown" dangerouslySetInnerHTML={{ __html: output }}></div>
                     </div>
                 }

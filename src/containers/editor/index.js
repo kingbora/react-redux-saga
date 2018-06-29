@@ -51,7 +51,7 @@ class Editor extends Component {
                         <p>
                             文章发表成功！<a target="_blank" href={`/detail/${nextProps.uuid}`}>预览</a>
                         </p>,
-                        60000
+                        6000
                     );
                     break;
                 case "error":
@@ -194,7 +194,15 @@ class Editor extends Component {
             label: [1,2],
             author: 1
         };
-        this.props.save(param);
+        if (!param.title) {
+            message.warn("文章标题不能为空");
+        } else if(!param.content) {
+            message.warn("文章内容不能为空");
+        } else if(!param.label) {
+            message.warn("请选择文章标签");
+        } else {
+            this.props.save(param);
+        }
     }
 
     renderMarkdownContent() {
